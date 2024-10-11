@@ -37,7 +37,7 @@ export default function Sign(){
                                 label="Password"
                                 type="Password"
                                 placeholder="Password"
-                                helperText="8자~16자 이내 영문, 숫자, 특수문자 사용가능"
+                                helperText="8자~16자 이내 영문, 숫자, 특수문자 사용가능!"
                                 fullWidth
                             >
                             </TextField>        
