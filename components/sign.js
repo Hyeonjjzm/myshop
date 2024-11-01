@@ -1,11 +1,12 @@
 import styles from "./sign.module.css";
-import { TextField, Fade } from "@mui/material";
+import { TextField, Fade, Button } from "@mui/material";
 import { useState } from "react";
 
 export default function Sign() {
   // TextField의 입력 값을 처리하는 state
   const [idValue, setIdValue] = useState("");
   const [pwValue, setPwValue] = useState("");
+  const [userNameValue, setUserNameValue] = useState("");
   const [pwCheckValue, setPwCheckValue] = useState("")
   const [showPwField, setShowPwField] = useState(false);
   const [showPwCheckField, setShowPwCheckField] = useState(false);
@@ -68,12 +69,33 @@ export default function Sign() {
       setPwCheckHelpText("비밀번호가 일치하지 않습니다.")
     }
   }
-
+  const handleUserNameChange = (event) => {
+    const value = event.target.value
+    if (value.length >=                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      0){
+    setUserNameValue(value);
+    }
+  }
+  const handleSubmit = () => {
+      if(!idError && !pwError && !pwCheckError && userNameValue.length >0 && idValue.length >0) {
+        alert("회원가입 완료")
+     } else{
+      alert("모든 입력란을 올바르게 채워주세요.")
+     }
+  }
   return (
     <>
       <div className={styles.wrapper}>
         <h2 className={styles.head}>회원가입</h2>
         <div className={styles.form}>
+          <TextField
+            id="username-required"
+            label="Username"
+            placeholder="닉네임"
+            helperText="사용하실 닉네임을 입력해주세요."
+            value={userNameValue}
+            onChange={handleUserNameChange}
+            fullWidth
+          ></TextField>
           <TextField
             error={idError}
             id="id-required"
@@ -114,6 +136,12 @@ export default function Sign() {
               ></TextField>
             </Fade>
           )}
+          <Button 
+          fullWidth
+          variant="outlined"
+          color = "primary"
+          onClick={handleSubmit}
+          style={{marginTop: '20px'}}>Continue</Button>
         </div>
       </div>
     </>
