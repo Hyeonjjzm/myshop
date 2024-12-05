@@ -1,32 +1,31 @@
-//DB / models.js
-const mongoose =  require('mongoose')
+// DB/models.js
+const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
     username : {
         type : String,
         required : true,
-        unique : ture,
+        unique : true,
         minlength : 2,
         maxlength : 30,
     },
-    userId : {
+    userId: {
         type : String,
-        required : ture,
+        required : true,
         unique : true,
     },
     password: {
         type : String,
-        required : ture,
+        required: true,
         minlength : 8,
-        maxlength : 15,
+        maxlength : 16,
     },
     createdAt : {
         type : Date,
         default : Date.now,
     },
-
 });
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.models.User || mongoose.model('User',userSchema);
 
 module.exports = User;

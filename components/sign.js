@@ -7,7 +7,7 @@ export default function Sign() {
   const [idValue, setIdValue] = useState("");
   const [pwValue, setPwValue] = useState("");
   const [userNameValue, setUserNameValue] = useState("");
-  const [pwCheckValue, setPwCheckValue] = useState("")
+  const [pwCheckValue, setPwCheckValue] = useState("");
   const [showPwField, setShowPwField] = useState(false);
   const [showPwCheckField, setShowPwCheckField] = useState(false);
 
@@ -19,7 +19,7 @@ export default function Sign() {
   // TextField의 Error를 처리하는 State
   const [idError, setIdError] = useState(false);
   const [pwError, setPwError] = useState(false);
-  const [pwCheckError,setPwCheckError] = useState(false);
+  const [pwCheckError, setPwCheckError] = useState(false);
 
   // ID Field의 값이 변경될때 처리
   const handleIdChange = (event) => {
@@ -43,16 +43,19 @@ export default function Sign() {
   const handlePwChange = (event) => {
     const value = event.target.value;
     setPwValue(value);
-    const regexPw = /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/;
-    
+    const regexPw =
+      /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/;
+
     if (regexPw.test(value)) {
       setShowPwCheckField(true);
       setPwError(false);
-      setPwHelpText("사용 가능한 PW 입니다.")
+      setPwHelpText("사용 가능한 PW 입니다.");
     } else {
       setShowPwCheckField(false);
       setPwError(true);
-      setPwHelpText("비밀번호는 8~16자 이내 영문,숫자,특수문자를 포함해야 합니다.")
+      setPwHelpText(
+        "비밀번호는 8~16자 이내 영문,숫자,특수문자를 포함해야 합니다."
+      );
     }
   };
 
@@ -60,28 +63,45 @@ export default function Sign() {
     // 목표 : PwTextField에 있는 값을 가져와서 똑같은지 검사
     const value = event.target.value;
     setPwCheckValue(value);
-    
+
     if (pwValue == value) {
-      setPwCheckError(false)
-      setPwCheckHelpText("비밀번호가 일치합니다.")
+      setPwCheckError(false);
+      setPwCheckHelpText("비밀번호가 일치합니다.");
     } else {
-      setPwCheckError(true)
-      setPwCheckHelpText("비밀번호가 일치하지 않습니다.")
+      setPwCheckError(true);
+      setPwCheckHelpText("비밀번호가 일치하지 않습니다.");
     }
-  }
+  };
   const handleUserNameChange = (event) => {
-    const value = event.target.value
-    if (value.length >=                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      0){
-    setUserNameValue(value);
+    const value = event.target.value;
+    if (value.length >= 0) {
+      setUserNameValue(value);
     }
-  }
-  const handleSubmit = () => {
-      if(!idError && !pwError && !pwCheckError && userNameValue.length >0 && idValue.length >0) {
-        alert("회원가입 완료")
-     } else{
-      alert("모든 입력란을 올바르게 채워주세요.")
-     }
-  }
+  };
+  const handleSubmit = async () => {
+    try {
+      const response = await fetch("/api/register", {
+        method : "POST",
+        headers : {
+          "Content-Type" : "application/json",
+        },
+        body : JSON.stringify({
+          username: userNameValue,
+          userId : idValue,
+          password : pwValue,
+        }),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        alert("회원가입 완료");
+      } else {
+        alert("회원가입 실패");
+      }
+    } catch (error) {
+      console.error("회원가입 실패:",error);
+    }
+  };
+
   return (
     <>
       <div className={styles.wrapper}>
@@ -91,7 +111,7 @@ export default function Sign() {
             id="username-required"
             label="Username"
             placeholder="닉네임"
-            helperText="사용하실 닉네임을 입력해주세요."
+            helperText="사용하실 닉네임을 입력해주세요"
             value={userNameValue}
             onChange={handleUserNameChange}
             fullWidth
@@ -136,12 +156,15 @@ export default function Sign() {
               ></TextField>
             </Fade>
           )}
-          <Button 
-          fullWidth
-          variant="outlined"
-          color = "primary"
-          onClick={handleSubmit}
-          style={{marginTop: '20px'}}>Continue</Button>
+          <Button
+            variant="outlined"
+            color="primary"
+            fullWidth
+            onClick={handleSubmit}
+            style={{ marginTop: "20px" }}
+          >
+            Continue
+          </Button>
         </div>
       </div>
     </>
